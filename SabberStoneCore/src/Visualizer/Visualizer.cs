@@ -89,7 +89,8 @@ namespace SabberStoneCore.Visualizer
 			zoneStrArray[0 + x].Append(new string(cardAscii[0]));
 			zoneStrArray[1 + x].Append(new string(cardAscii[1]));
 			zoneStrArray[2 + x].Append(new string(cardAscii[2]));
-			zoneStrArray[3 + x].Append(new string(cardAscii[3]) + " " + hero.HeroPower.Card.AbbreviatedName(7));
+			char[] armor = hero.Armor.ToString().PadRight(2).ToCharArray();
+			zoneStrArray[3 + x].Append(new string(cardAscii[3]) + " " + hero.HeroPower.Card.AbbreviatedName(7) + new string(armor));
 			zoneStrArray[4 + x].Append(new string(cardAscii[4]));
 			zoneStrArray[turn ? 0 : 5].Append(new string(cardAscii[5]) + " " + (hero.Controller == hero.Game.CurrentPlayer ? " <<==" : "     "));
 			zoneStrArray[0].Append(" ");
@@ -113,7 +114,7 @@ namespace SabberStoneCore.Visualizer
 			zoneStr.Append(zoneStrArray[0 + y].AppendLine(spacer.Substring(1) + "¦ " + backStrArray[0] + " ¦"));
 			zoneStr.Append(zoneStrArray[1 + y].AppendLine(spacer.Substring(1) + "¦ " + backStrArray[1] + " ¦"));
 			zoneStr.Append(zoneStrArray[2 + y].AppendLine(spacer.Substring(1) + "¦ " + backStrArray[2] + " ¦"));
-			zoneStr.Append(zoneStrArray[3 + y].AppendLine(spacer.Substring(9) + "¦ " + backStrArray[3] + " ¦"));
+			zoneStr.Append(zoneStrArray[3 + y].AppendLine(spacer.Substring(11) + "¦ " + backStrArray[3] + " ¦"));
 			zoneStr.Append(zoneStrArray[4 + y].AppendLine(spacer.Substring(1) + "¦ " + backStrArray[4] + " ¦"));
 			zoneStr.Append(zoneStrArray[turn ? 0 : 5].AppendLine(spacer.Substring(7) + "¦ " + backStrArray[5] + " ¦"));
 			return zoneStr.ToString();
@@ -147,7 +148,8 @@ namespace SabberStoneCore.Visualizer
 					cardAscii = new CardAsciiBuilder().Create()
 						.Name(spell.Card.AbbreviatedName(7))
 						.Cost(spell.Cost)
-						.SpellText(Regex.Replace(spell.Card.Text, @"<[^>]*>", "").Replace(Environment.NewLine, ""))
+						// Environment.NewLine returns A string containing "\r\n" for non-Unix platforms, which might cause bugs
+						.SpellText(Regex.Replace(spell.Card.Text, @"<[^>]*>", "").Replace(Environment.NewLine, "").Replace("\n", ""))
 						.Type(CardType.SPELL)
 						.Build();
 

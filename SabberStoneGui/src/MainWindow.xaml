@@ -7,7 +7,7 @@
         xmlns:model="clr-namespace:SabberStoneCore.Model;assembly=SabberStoneCore"
         xmlns:deck="clr-namespace:SabberStoneGui.Deck"
         mc:Ignorable="d"
-        Title="SabberStone 0.0.1v by darkfriend77" Height="700" Width="1200" BorderThickness="0">
+        Title="SabberStone 0.0.1v by darkfriend77" Height="800" Width="1200" BorderThickness="0">
     <Grid Background="#FFFFF3D2">
         <TabControl>
             <TabControl.Background>
@@ -18,7 +18,7 @@
             </TabControl.Background>
             <TabItem Header="Game">
                 <Grid>
-                    <TextBox x:Name="ViewBox" HorizontalAlignment="Left" Height="610" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="620" FontFamily="Consolas" BorderThickness="0" Cursor="None" Foreground="Black" Focusable="False">
+                    <TextBox x:Name="ViewBox" HorizontalAlignment="Left" Height="710" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="620" FontFamily="Consolas" BorderThickness="0" Cursor="None" Foreground="Black" Focusable="False">
                         <TextBox.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FFF0F7AD" Offset="0"/>
@@ -59,9 +59,9 @@
                                 <ColumnDefinition Width="27*"/>
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
-                            <Slider x:Name="SlidMaxDepth" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Width="145" Grid.ColumnSpan="2" Maximum="20" Minimum="1" IsSnapToTickEnabled="True" Value="10"/>
+                            <Slider x:Name="SlidMaxDepth" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Width="145" Grid.ColumnSpan="2" Maximum="20" Minimum="1" IsSnapToTickEnabled="True" Value="4"/>
                             <Slider x:Name="SlidMaxWidth" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Width="145" Grid.ColumnSpan="2"
-                        Grid.Column="0" Maximum="10000" Minimum="100" IsSnapToTickEnabled="True" Value="500"/>
+                        Grid.Column="0" Maximum="10000" Minimum="100" IsSnapToTickEnabled="True" Value="100"/>
                             <Label Grid.Column="0" x:Name="LblConfB" Content="Clone Depth" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="79" Margin="10,0,0,0"/>
                             <Label Grid.Column="0" x:Name="LblConfA" Content="Clone Width" HorizontalAlignment="Left" Height="26" Margin="10,54,0,0" VerticalAlignment="Top" Width="79"/>
 

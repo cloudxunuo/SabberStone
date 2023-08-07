@@ -24,6 +24,7 @@ using SabberStoneCore.Tasks.PlayerTasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using SabberStoneCore.Auras;
 using SabberStoneCore.Triggers;
@@ -273,6 +274,10 @@ namespace SabberStoneCore.Model
 				[GameTag.CARDTYPE] = (int)CardType.GAME
 			})
 		{
+			if (gameConfig == null)
+			{
+				return;
+			}
 			Random = gameConfig.RandomSeed is null ?
 				new Util.DeepCloneableRandom() :
 				new Util.DeepCloneableRandom(gameConfig.RandomSeed.Value);
@@ -885,7 +890,7 @@ namespace SabberStoneCore.Model
 		/// </summary>
 		public void MainEnd()
 		{
-			Log(LogLevel.INFO, BlockType.PLAY, "Game", !Logging ? "" : $"End turn proccessed by player {CurrentPlayer}");
+			Log(LogLevel.INFO, BlockType.PLAY, "Game", !Logging ? "" : $"End turn proccessed by player {CurrentPlayer.Name}");
 
 			if (History)
 				PowerHistoryBuilder.BlockStart(BlockType.TRIGGER, CurrentPlayer.Id, "", 4, 0);

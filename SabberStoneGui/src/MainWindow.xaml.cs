@@ -277,14 +277,14 @@ namespace SabberStoneGui
 					? GuiHelper.GetScoring((Strategy)CboxAi1.SelectedValue)
 					: GuiHelper.GetScoring((Strategy)CboxAi2.SelectedValue);
 				worker.RunWorkerAsync(new List<object> { (int)SlidMaxDepth.Value, (int)SlidMaxWidth.Value, scoring });
-				BtnStart.Content = $"{CurrentGame.CurrentPlayer} Move!";
+				BtnStart.Content = $"{CurrentGame.CurrentPlayer.Name} Move!";
 			}
 			else if (CurrentGame.State == SabberStoneCore.Enums.State.COMPLETE)
 			{
 				TxtPlayer1.Text = ".. Game is finished!" + Environment.NewLine +
 								  $"P1: {CurrentGame.Player1} => {CurrentGame.Player1.PlayState}" + Environment.NewLine +
 								  $"P2: {CurrentGame.Player2} => {CurrentGame.Player2.PlayState}" + Environment.NewLine;
-				BtnStart.IsEnabled = true;
+				BtnStart.IsEnabled = false;
 				BtnStart.Content = "Finished!" + Environment.NewLine + "..new game?";
 
 				CboxDeck1.IsEnabled = true;
@@ -305,6 +305,7 @@ namespace SabberStoneGui
 		{
 			if (CurrentGame?.State == SabberStoneCore.Enums.State.RUNNING)
 			{
+				CurrentGame.Log(LogLevel.INFO, BlockType.SCRIPT, "SCRIPT", "----------------------------click button-------------------");
 				SabberStoneCore.Model.Entities.Controller curPlayer = CurrentGame.CurrentPlayer;
 				PlayerTask nextTask = CurrentSolution[0];
 				CurrentSolution.Remove(nextTask);
@@ -321,7 +322,12 @@ namespace SabberStoneGui
 			{
 				TxtPlayer1.Text = "* Starting a new Game .... ***";
 
-				CurrentGame = new Game(GuiHelper.CreateGameConfig((MetaDeck)CboxDeck1.SelectedItem, (MetaDeck)CboxDeck2.SelectedItem));
+				var gameConfig = GuiHelper.CreateGameConfig((MetaDeck)CboxDeck1.SelectedItem, (MetaDeck)CboxDeck2.SelectedItem);
+				if (gameConfig == null)
+				{
+					return;
+				}
+				CurrentGame = new Game(gameConfig);
 				CurrentGame.StartGame();
 				CboxDeck1.IsEnabled = false;
 				CboxDeck2.IsEnabled = false;

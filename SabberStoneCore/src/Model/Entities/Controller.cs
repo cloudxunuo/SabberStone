@@ -89,6 +89,11 @@ namespace SabberStoneCore.Model.Entities
 		/// </summary>
 		public string Name { get; }
 
+		public override string ToString()
+		{
+			return $"'{Name}[{Id}]'";
+		}
+
 		/// <summary>
 		/// Initial cards that are in the deck of the controller.
 		/// </summary>
