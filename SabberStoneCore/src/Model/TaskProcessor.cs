@@ -69,7 +69,7 @@ namespace SabberStoneCore.Model
 		private readonly Game _game;
 		private readonly Stack<Queue<TaskInstance>> _eventStack;
 		//private readonly Stack<Event> _eventStack;
-		private readonly Queue<TaskInstance> _baseQueue;
+		// byGarra private readonly Queue<TaskInstance> _baseQueue;
 		private readonly Queue<TaskInstance> _pendingTasks;
 #if LOGEVENT
 		private int _stackHeight;
@@ -80,8 +80,8 @@ namespace SabberStoneCore.Model
 			_game = game;
 			_eventStack = new Stack<Queue<TaskInstance>>();
 			//_eventStack = new Stack<Event>();
-			_baseQueue = new Queue<TaskInstance>();
-			CurrentQueue = _baseQueue;
+			// byGarra _baseQueue = new Queue<TaskInstance>();
+			CurrentQueue = null;// byGarra _baseQueue;
 			_pendingTasks = new Queue<TaskInstance>();
 		}
 
@@ -92,7 +92,7 @@ namespace SabberStoneCore.Model
 		//public bool IsEmpty => _eventFlag || CurrentQueue.Count == 0;
 		public bool IsEmpty => CurrentQueue == null || CurrentQueue.Count == 0;
 
-		public ISimpleTask CurrentTask { get; private set; }
+		// byGarra public ISimpleTask CurrentTask { get; private set; }
 
 		public void StartEvent()
 		{
@@ -181,20 +181,21 @@ namespace SabberStoneCore.Model
 #endif
 		}
 
-		public void EnqueueBase(in ISimpleTask task, in Controller controller, in IEntity source, in IPlayable target)
-		{
-			//_baseQueue.Enqueue((task, controller, source, target));
-			//if (!_eventFlag && _eventStack.Count == 0)
-			//{
-			//	_eventStack.Push(new Queue<TaskInstance>(_baseQueue));
-			//	_baseQueue.Clear();
-			//}
-
-			_baseQueue.Enqueue(new TaskInstance(in task, in controller, in source, in target));
-
-			_game.Log(LogLevel.DEBUG, BlockType.TRIGGER, "TaskQueue",
-				!_game.Logging ? "" : $"{task.GetType().Name} is Enqueued in 0th stack");
-		}
+		// byGarra
+		// public void EnqueueBase(in ISimpleTask task, in Controller controller, in IEntity source, in IPlayable target)
+		// {
+		// 	//_baseQueue.Enqueue((task, controller, source, target));
+		// 	//if (!_eventFlag && _eventStack.Count == 0)
+		// 	//{
+		// 	//	_eventStack.Push(new Queue<TaskInstance>(_baseQueue));
+		// 	//	_baseQueue.Clear();
+		// 	//}
+		//
+		// 	_baseQueue.Enqueue(new TaskInstance(in task, in controller, in source, in target));
+		//
+		// 	_game.Log(LogLevel.DEBUG, BlockType.TRIGGER, "TaskQueue",
+		// 		!_game.Logging ? "" : $"{task.GetType().Name} is Enqueued in 0th stack");
+		// }
 
 		/// <summary>
 		/// Queue a task that will be processed after a task is queued and processed.
@@ -220,13 +221,13 @@ namespace SabberStoneCore.Model
 		public TaskState Process()
 		{
 			(ISimpleTask task, Controller controller, IEntity source, IPlayable target) = CurrentQueue.Peek();
-			ISimpleTask temp = CurrentTask;
-			CurrentTask = task;
+			// byGarra ISimpleTask temp = CurrentTask;
+			// byGarra CurrentTask = task;
 
 			//if (currentTask is StateTaskList tasks)
 			//	tasks.Stack = new TaskStack(_game);
 
-			_game.Log(LogLevel.VERBOSE, BlockType.TRIGGER, "TaskQueue", !_game.Logging ? "" : $"LazyTask[{source}]: '{CurrentTask.GetType().Name}' is processed!" +
+			_game.Log(LogLevel.VERBOSE, BlockType.TRIGGER, "TaskQueue", !_game.Logging ? "" : $"LazyTask[{source}]: '{task.GetType().Name}' is processed!" +
 			                                                                                $"'{source.Card.Text?.Replace("\n", " ")}'");
 			if (_game.History)
 				_game.PowerHistory.Add(PowerHistoryBuilder.BlockStart(task.IsTrigger ? BlockType.TRIGGER : BlockType.POWER, source.Id, "", -1, target?.Id ?? 0));
@@ -253,7 +254,7 @@ namespace SabberStoneCore.Model
 			//_game.TaskStack.Reset();
 
 			CurrentQueue.Dequeue();
-			CurrentTask = temp;
+			// byGarra CurrentTask = temp;
 
 			return success;
 		}

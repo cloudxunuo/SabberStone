@@ -27,13 +27,17 @@ namespace SabberStoneGui.Core
 	{
 		public static GameConfig CreateGameConfig(MetaDeck deck1, MetaDeck deck2)
 		{
+			if (deck1 == null || deck2 == null)
+			{
+				return null;
+			}
 			return new GameConfig()
 			{
 				StartPlayer = 1,
-				Player1Name = "FitzVonGerald",
+				Player1Name = "Garra",
 				Player1HeroClass = deck1.HeroClass,
 				Player1Deck = deck1.CardIds.Select(Cards.FromId).ToList(),
-				Player2Name = "RehHausZuckFuchs",
+				Player2Name = "Stella",
 				Player2HeroClass = deck2.HeroClass,
 				Player2Deck = deck2.CardIds.Select(Cards.FromId).ToList(),
 				FillDecks = false,

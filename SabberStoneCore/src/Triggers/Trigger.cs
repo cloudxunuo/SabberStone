@@ -115,6 +115,8 @@ namespace SabberStoneCore.Triggers
 
 		/// <summary>
 		/// Create a new instance of <see cref="Trigger"/> object in source's Game. During activation, the instance's <see cref="Process(IEntity)"/> subscribes to the events in <see cref="TriggerManager"/>.
+		/// 目前看起来cloning参数是服务于AI预测器的，可以删掉
+		/// asAncillary
 		/// </summary>
 		public virtual Trigger Activate(IPlayable source, TriggerActivation activation = TriggerActivation.PLAY, bool cloning = false, bool asAncillary = false)
 		{

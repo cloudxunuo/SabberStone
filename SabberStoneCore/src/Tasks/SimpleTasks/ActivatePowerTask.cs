@@ -17,52 +17,53 @@ using SabberStoneCore.Model.Entities;
 
 namespace SabberStoneCore.Tasks.SimpleTasks
 {
-	public class ActivatePowerTask : SimpleTask
-	{
-		private readonly EntityType _sourceType;
-		private readonly EntityType _targetType;
-		private readonly bool _enqueueBase;
-
-		public ActivatePowerTask(EntityType sourceType, EntityType targetType = EntityType.INVALID, bool enqueueBase = false)
-		{
-			_sourceType = sourceType;
-			_enqueueBase = enqueueBase;
-			_targetType = targetType;
-		}
-
-		public override TaskState Process(in Game game, in Controller controller, in IEntity source, in IPlayable target,
-			in TaskStack stack = null)
-		{
-			bool enqueueBase = _enqueueBase;
-
-			if (_targetType != EntityType.INVALID)
-			{
-				IList<IPlayable> targets = IncludeTask.GetEntities(in _targetType, in controller, source, target,
-					stack?.Playables);
-
-				foreach (IPlayable p in IncludeTask.GetEntities(in _sourceType, in controller, source, target,
-					stack?.Playables))
-				{
-					ISimpleTask task = p.Card.Power.PowerTask;
-
-					foreach (IPlayable t in targets)
-					{
-						if (enqueueBase)
-							game.TaskQueue.EnqueueBase(in task, in controller, p, in t);
-						else
-							game.TaskQueue.Enqueue(in task, in controller, p, in t);
-					}
-				}
-			}
-			else
-				foreach (IPlayable p in IncludeTask.GetEntities(in _sourceType, in controller, source, target,
-					stack?.Playables))
-					if (enqueueBase)
-						game.TaskQueue.EnqueueBase(p.Card.Power.PowerTask, in controller, p, null);
-					else
-						game.TaskQueue.Enqueue(p.Card.Power.PowerTask, in controller, p, null);
-
-			return TaskState.COMPLETE;
-		}
-	}
+	// byGarra
+	// public class ActivatePowerTask : SimpleTask
+	// {
+	// 	private readonly EntityType _sourceType;
+	// 	private readonly EntityType _targetType;
+	// 	private readonly bool _enqueueBase;
+	//
+	// 	public ActivatePowerTask(EntityType sourceType, EntityType targetType = EntityType.INVALID, bool enqueueBase = false)
+	// 	{
+	// 		_sourceType = sourceType;
+	// 		_enqueueBase = enqueueBase;
+	// 		_targetType = targetType;
+	// 	}
+	//
+	// 	public override TaskState Process(in Game game, in Controller controller, in IEntity source, in IPlayable target,
+	// 		in TaskStack stack = null)
+	// 	{
+	// 		bool enqueueBase = _enqueueBase;
+	//
+	// 		if (_targetType != EntityType.INVALID)
+	// 		{
+	// 			IList<IPlayable> targets = IncludeTask.GetEntities(in _targetType, in controller, source, target,
+	// 				stack?.Playables);
+	//
+	// 			foreach (IPlayable p in IncludeTask.GetEntities(in _sourceType, in controller, source, target,
+	// 				stack?.Playables))
+	// 			{
+	// 				ISimpleTask task = p.Card.Power.PowerTask;
+	//
+	// 				foreach (IPlayable t in targets)
+	// 				{
+	// 					if (enqueueBase)
+	// 						game.TaskQueue.EnqueueBase(in task, in controller, p, in t);
+	// 					else
+	// 						game.TaskQueue.Enqueue(in task, in controller, p, in t);
+	// 				}
+	// 			}
+	// 		}
+	// 		else
+	// 			foreach (IPlayable p in IncludeTask.GetEntities(in _sourceType, in controller, source, target,
+	// 				stack?.Playables))
+	// 				if (enqueueBase)
+	// 					game.TaskQueue.EnqueueBase(p.Card.Power.PowerTask, in controller, p, null);
+	// 				else
+	// 					game.TaskQueue.Enqueue(p.Card.Power.PowerTask, in controller, p, null);
+	//
+	// 		return TaskState.COMPLETE;
+	// 	}
+	// }
 }
